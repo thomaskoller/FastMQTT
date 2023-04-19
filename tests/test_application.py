@@ -1,3 +1,5 @@
+import json
+
 import pydantic
 import pytest
 
@@ -12,7 +14,23 @@ def test_can_subscribe_topic(app):
     assert app._topics[topic]
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="Local development")
+@pytest.mark.parametrize(
+    "topic, payload",
+    argvalues=[
+        ("topic", "test"),
+        ("topic", b"bytes"),
+        ("topic", 17),
+        ("topic", 42.0),
+        ("topic", json.dumps({"key": "test"})),
+    ],
+    ids=["String", "Bytes", "Integer", "Float", "Json"],
+)
+def test_can_publish_to_topic(app, topic, payload):
+    app.publish(topic=topic, payload=payload)
+
+
+@pytest.mark.skip(reason="Local development")
 def test_can_subscribe_primitive(app):
     @app.subscribe(topic="primitive")
     def callback(msg: str) -> None:
@@ -21,7 +39,7 @@ def test_can_subscribe_primitive(app):
     app.run()
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="Local development")
 def test_can_subscribe_basemodel(app):
     class Model(pydantic.BaseModel):
         str: str

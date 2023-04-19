@@ -13,6 +13,9 @@ class FastMQTT:
         self._broker.on_message = self._on_message
         self._topics: typing.Dict[Topic, CallbackSignature] = {}
 
+    def publish(self, topic: Topic, payload) -> None:
+        self._broker.publish(topic=topic, payload=payload)
+
     def subscribe(self, topic: Topic) -> typing.Callable:
         def inner(func: typing.Callable):
             self._topics[topic] = CallbackSignature.load(callback=func)
