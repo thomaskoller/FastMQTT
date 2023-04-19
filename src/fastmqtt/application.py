@@ -7,9 +7,9 @@ from .topic import Topic
 
 
 class FastMQTT:
-    def __init__(self) -> None:
+    def __init__(self, host: str, port: int = 1883) -> None:
         self._broker = mqtt.Client()
-        self._broker.connect(host="localhost", port=1883)
+        self._broker.connect(host=host, port=port)
         self._broker.on_message = self._on_message
         self._topics: typing.Dict[Topic, CallbackSignature] = {}
 

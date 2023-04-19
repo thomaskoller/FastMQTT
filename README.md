@@ -10,7 +10,7 @@ import pydantic
 class Payload(pydantic.BaseModel):
     param: str
 
-app = FastMQTT()
+app = FastMQTT(host="localhost")
 
 @app.subscribe(topic="some/topic")
 def some_topic(msg=Payload):
