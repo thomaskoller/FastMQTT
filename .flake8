@@ -1,0 +1,4 @@
+[flake8]
+select=BLK,I,F,B,S,C90
+max-line-length = 88
+exclude=venv

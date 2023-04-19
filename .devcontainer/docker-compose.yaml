@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    user: mosquitto
+    volumes:
+      - type: bind
+        source: ./config/
+        target: /mosquitto/config/
+      - type: bind
+        source: ./log/
+        target: /mosquitto/log/
+      - type: volume
+        source: data
+        target: /mosquitto/data/
+    ports:
+      - target: 1883
+        published: 1883
+        protocol: tcp
+        mode: host
+      - target: 9001
+        published: 9001
+        protocol: tcp
+        mode: host
+
+volumes:
+  data:
+    name: "mqtt-broker-data"
